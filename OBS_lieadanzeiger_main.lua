@@ -76,7 +76,8 @@ pointsInSong["D"]		= {".","",".","."}
 pointsInSong["E"]		= {"",".",".","."} 
 pointsInSong["F"]		= {".",".",".","."}
 
--- Some nice and helpful functions
+-- Hilfsfunktionen
+-- Überprüfen ob ein Wert in einer Liste / einem Array enthalten ist
 function has_value (tab, val)
     for index, value in ipairs(tab) do
         if value == val then
@@ -86,6 +87,7 @@ function has_value (tab, val)
     return false
 end
 
+-- Liste/Array über die Konsole ausgeben
 function print_r(arr, indentLevel)
     local str = ""
     local indentStr = "#"
@@ -106,6 +108,7 @@ function print_r(arr, indentLevel)
     return str
 end
 
+-- Liste/Array in String umwandeln
 function listToString(arr)
 	local output = ""
 	for k, v in pairs(arr) do
@@ -117,6 +120,7 @@ end
 -- Functions for the textsignal interpretation
 function readInSerialSignal()
     --hier muss der später der serielle Einlesevorgang hin,erstmal Testwerte
+    
     readInData = serial_string
     --Signal auf Plausibilität prüfen
     errorMsg = "Das Standardsignal für AUS 'ACCCCCCCCCCB' wurde stattdessen gesetzt."
@@ -260,11 +264,16 @@ function set_text()
 	errorOccured	= false
 	errorType		= ""
 	errorMsg		= ""
+
+	-- DEBUG -uncomment to use
 	--print_r(readInSerialSignal())
+	-- DEBUG -uncomment to use
 	--print(getSongNumber(readInSerialSignal()))
 	
+	-- Hier wird der Ausgabetext zusammengebaut, aus der  Liednummer (getSongNumber) und der Strophennummer (getVerseNumber)
 	text = "Lied: " .. getSongNumber(readInSerialSignal()) .. "\n" .. "Str.: " .. getVerseNumber(readInSerialSignal())
 	
+	-- Update the specified textfield if text has changed
 	if text ~= last_text then
 		local source = obs.obs_get_source_by_name(source_name)
 		if source ~= nil then
@@ -359,7 +368,7 @@ end
 -- A function named script_description returns the description shown to
 -- the user
 function script_description()
-	return "Reads the serial input of the songnumber display in St. Barbara, Gelsenkirchen-Erle.\n\nMade by Michael Kwiatek"
+	return "Reads the serial input of the songnumber display in St. Barbara, Gelsenkirchen-Erle.\n\nMade by Michael Kwiatek (c)2020"
 end
 
 -- A function named script_update will be called when settings are changed
